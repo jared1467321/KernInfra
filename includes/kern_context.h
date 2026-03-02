@@ -1,9 +1,13 @@
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ifndef KERN_CONTEXT_H
+#define KERN_CONTEXT_H
 
 #include <stdint.h>
 #include <stdarg.h>
+#include <stddef.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef uint64_t addr_t;
 
@@ -25,7 +29,6 @@ typedef struct {
 } KernInfraContext;
 
 extern KernInfraContext kerninfra_context;
-
 extern void kerninfra_log(int ll, const char * format, ...);
 
 #ifdef __cplusplus
@@ -33,4 +36,9 @@ extern void kerninfra_log(int ll, const char * format, ...);
 #endif
 
 #define KERNINFRA_LOG(ll, ...) \
-    do {if (ll <= kerninfra_context.logLevel) kerninfra_log(ll, __VA_ARGS__); } while(0);
+    do { \
+        if ((ll) <= kerninfra_context.logLevel) \
+            kerninfra_log((ll), __VA_ARGS__); \
+    } while (0)
+
+#endif
